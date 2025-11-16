@@ -6,11 +6,11 @@ import vista.DirectorioVista;
 import java.util.List;
 
 public class ControladorInventario {
-    private BaseDeDatos modelo;
+    private BaseDeDatos baseDatos; 
     private DirectorioVista vista;
     
-    public ControladorInventario(BaseDeDatos modelo, DirectorioVista vista) {
-        this.modelo = modelo;
+    public ControladorInventario(BaseDeDatos baseDatos, DirectorioVista vista) {
+        this.baseDatos = baseDatos;
         this.vista = vista;
     }
     
@@ -27,13 +27,10 @@ public class ControladorInventario {
                     buscarProducto();
                     break;
                 case 3:
-                    listarProductos();
+                    mostrarTodosProductos();  
                     break;
                 case 4:
                     eliminarProducto();
-                    break;
-                case 5:
-                    actualizarProducto();
                     break;
                 case 0:
                     vista.mostrarMensaje("¡Hasta luego!");
@@ -45,56 +42,38 @@ public class ControladorInventario {
     }
     
     private void agregarProducto() {
-        Producto nuevoProducto = vista.pedirDatosProducto();
+       
+        Producto nuevoProducto = vista.pedirDatosUsuario();
         if (nuevoProducto != null) {
-            boolean exito = modelo.agregarProducto(nuevoProducto);
+            boolean exito = baseDatos.agregarProducto(nuevoProducto);
             if (exito) {
-                vista.mostrarMensaje("Producto agregado exitosamente");
+                vista.mostrarMensaje("Producto agregado correctamente.");
             } else {
-                vista.mostrarMensaje("Error: El SKU ya existe");
+                vista.mostrarMensaje("Error: El SKU ya existe.");
             }
         }
     }
     
     private void buscarProducto() {
         String sku = vista.pedirSku();
-        Producto producto = modelo.buscarProducto(sku);
+       
+        Producto producto = baseDatos.buscarProductoSku(sku);
         vista.mostrarProducto(producto);
     }
     
-    private void listarProductos() {
-        List<Producto> productos = modelo.obtenerTodosProductos();
+    private void mostrarTodosProductos() {
+        
+        List<Producto> productos = baseDatos.buscarTodos();
         vista.mostrarProductos(productos);
     }
     
     private void eliminarProducto() {
         String sku = vista.pedirSku();
-        boolean exito = modelo.eliminarProducto(sku);
+        boolean exito = baseDatos.eliminarProducto(sku);
         if (exito) {
-            vista.mostrarMensaje("Producto eliminado exitosamente");
+            vista.mostrarMensaje("Producto eliminado correctamente.");
         } else {
-            vista.mostrarMensaje("Error: Producto no encontrado");
-        }
-    }
-    
-    private void actualizarProducto() {
-        String sku = vista.pedirSku();
-        Producto productoExistente = modelo.buscarProducto(sku);
-        
-        if (productoExistente == null) {
-            vista.mostrarMensaje("Error: Producto no encontrado");
-            return;
-        }
-        
-        vista.mostrarProducto(productoExistente);
-        vista.mostrarMensaje("Ingrese los nuevos datos:");
-        
-        Producto productoActualizado = vista.pedirDatosProducto();
-        if (productoActualizado != null) {
-            boolean exito = modelo.actualizarProducto(productoActualizado);
-            if (exito) {
-                vista.mostrarMensaje("Producto actualizado exitosamente");
-            }
+            vista.mostrarMensaje("Error: Producto no encontrado.");
         }
     }
 }

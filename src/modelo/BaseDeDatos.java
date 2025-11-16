@@ -10,36 +10,31 @@ public class BaseDeDatos {
     
     public BaseDeDatos() {
         this.productos = new HashMap<>();
-        // Datos de ejemplo
-        agregarProducto(new Producto("001", "Laptop", 999.99));
-        agregarProducto(new Producto("002", "Mouse", 25.50));
+        
+        agregarProducto(new Producto("001", "Laptop", 10, 999.99));
+        agregarProducto(new Producto("002", "Mouse", 25, 25.50));
     }
     
     public boolean agregarProducto(Producto producto) {
-        if (productos.containsKey(producto.getSku())) {
-            return false; // SKU ya existe
+       
+        if (productos.containsKey(producto.getSku().toLowerCase())) {
+            return false;
         }
-        productos.put(producto.getSku(), producto);
+        productos.put(producto.getSku().toLowerCase(), producto);
         return true;
     }
     
-    public Producto buscarProducto(String sku) {
-        return productos.get(sku);
-    }
-    
-    public List<Producto> obtenerTodosProductos() {
+   
+    public Producto buscarProductoSku(String sku) {
+        return productos.get(sku.toLowerCase());
+    }  
+   
+    public List<Producto> buscarTodos() {
         return new ArrayList<>(productos.values());
     }
     
     public boolean eliminarProducto(String sku) {
-        return productos.remove(sku) != null;
-    }
-    
-    public boolean actualizarProducto(Producto producto) {
-        if (!productos.containsKey(producto.getSku())) {
-            return false; // Producto no existe
-        }
-        productos.put(producto.getSku(), producto);
-        return true;
-    }
+        return productos.remove(sku.toLowerCase()) != null;  
+}
+
 }
