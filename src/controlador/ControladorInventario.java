@@ -6,7 +6,7 @@ import vista.DirectorioVista;
 import java.util.List;
 
 public class ControladorInventario {
-    private BaseDeDatos baseDatos; 
+    private BaseDeDatos baseDatos;
     private DirectorioVista vista;
     
     public ControladorInventario(BaseDeDatos baseDatos, DirectorioVista vista) {
@@ -27,7 +27,7 @@ public class ControladorInventario {
                     buscarProducto();
                     break;
                 case 3:
-                    mostrarTodosProductos();  
+                    listarProductos();
                     break;
                 case 4:
                     eliminarProducto();
@@ -42,7 +42,6 @@ public class ControladorInventario {
     }
     
     private void agregarProducto() {
-       
         Producto nuevoProducto = vista.pedirDatosUsuario();
         if (nuevoProducto != null) {
             boolean exito = baseDatos.agregarProducto(nuevoProducto);
@@ -56,13 +55,11 @@ public class ControladorInventario {
     
     private void buscarProducto() {
         String sku = vista.pedirSku();
-       
         Producto producto = baseDatos.buscarProductoSku(sku);
         vista.mostrarProducto(producto);
     }
     
-    private void mostrarTodosProductos() {
-        
+    private void listarProductos() {
         List<Producto> productos = baseDatos.buscarTodos();
         vista.mostrarProductos(productos);
     }

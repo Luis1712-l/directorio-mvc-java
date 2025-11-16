@@ -13,10 +13,10 @@ public class DirectorioVista {
     
     public int mostrarMenu() {
         System.out.println("\n=== INVENTARIO DE PRODUCTOS ===");
-        System.out.println("1. Agregar un nuevo producto");
-        System.out.println("2. Buscar un producto por SKU");
+        System.out.println("1. Agregar producto");
+        System.out.println("2. Buscar producto por SKU");
         System.out.println("3. Mostrar todos los productos");
-        System.out.println("4. Eliminar un producto");
+        System.out.println("4. Eliminar producto");
         System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
         
@@ -27,22 +27,19 @@ public class DirectorioVista {
         }
     }
     
-    
     public Producto pedirDatosUsuario() {
-        System.out.print("Ingrese nombre del producto: ");
-        String nombre = scanner.nextLine();
-        
         System.out.print("Ingrese SKU: ");
         String sku = scanner.nextLine();
         
-      
+        System.out.print("Ingrese nombre: ");
+        String nombre = scanner.nextLine();
+        
         System.out.print("Ingrese cantidad: ");
         int cantidad = Integer.parseInt(scanner.nextLine());
         
         System.out.print("Ingrese precio unitario: ");
         try {
             double precio = Double.parseDouble(scanner.nextLine());
-            
             return new Producto(sku, nombre, cantidad, precio);
         } catch (NumberFormatException e) {
             System.out.println("Error: Precio debe ser un número válido");
